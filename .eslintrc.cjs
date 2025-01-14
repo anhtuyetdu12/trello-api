@@ -1,6 +1,6 @@
 /**
- * Updated by trungquandev.com's author on August 17 2023
- * YouTube: https://youtube.com/@trungquandev
+ * Updated by anhtuyetdev.com's author on August 17 2023
+ * YouTube: https://youtube.com/@anhtuyetdev
  * "A bit of fragrance clings to the hand that gives flowers!"
  * Sample Eslint config for NodeJS ExpressJS MongoDB project
  */
