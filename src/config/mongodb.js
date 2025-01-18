@@ -16,10 +16,23 @@ import { MongoClient, ServerApiVersion } from 'mongodb'
 let trelloDatabaseInstance = null
 
 //khoi tao 1 doi tuong mongoClientInstance de connect toi MongoDB
-const clientInstance = new MongoClient(MONGODB_URI, {
+const mongoClientInstance = new MongoClient(MONGODB_URI, {
   serverApi:{
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true
   }
 })
+
+//ket noi toi db
+export const CONNECT_DB = async () => {
+  // goi knoi toi MongoDB Atlats voi URI da khai bao trong than cua mongoClientInstance
+  await mongoClientInstance.connect()
+
+  trelloDatabaseInstance = mongoClientInstance.db(DATABASE_NAME)
+}
+
+export const GET_DB = () => {
+  if (!trelloDatabaseInstance) throw new Error('Must connect to Database first!')
+  return trelloDatabaseInstance
+}
