@@ -7,16 +7,14 @@
 //twettanh12
 //UXyVPeCkmPrxKXQx
 
-const MONGODB_URI = 'mongodb+srv://twettanh12:UXyVPeCkmPrxKXQx@cluster0-anhtuyetdev.3mord.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0-AnhTuyetDev'
-
-const DATABASE_NAME = 'trello-anhtuyetdev-mern-stack-pro'
-
 import { MongoClient, ServerApiVersion } from 'mongodb'
+import { env } from '~/config/environment'
+
 
 let trelloDatabaseInstance = null
 
 //khoi tao 1 doi tuong mongoClientInstance de connect toi MongoDB
-const mongoClientInstance = new MongoClient(MONGODB_URI, {
+const mongoClientInstance = new MongoClient(env.MONGODB_URI, {
   serverApi:{
     version: ServerApiVersion.v1,
     strict: true,
@@ -29,10 +27,16 @@ export const CONNECT_DB = async () => {
   // goi knoi toi MongoDB Atlats voi URI da khai bao trong than cua mongoClientInstance
   await mongoClientInstance.connect()
 
-  trelloDatabaseInstance = mongoClientInstance.db(DATABASE_NAME)
+  trelloDatabaseInstance = mongoClientInstance.db(env.DATABASE_NAME)
+}
+
+//Dong ket noi db khi can
+export const CLOSE_DB = async() => {
+  await mongoClientInstance.close()
 }
 
 export const GET_DB = () => {
   if (!trelloDatabaseInstance) throw new Error('Must connect to Database first!')
   return trelloDatabaseInstance
 }
+
