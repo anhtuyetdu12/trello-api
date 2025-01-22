@@ -17,10 +17,10 @@ const createNew = async(req, res, next) => {
     // console.log('req.jwtDecoded:', req.jwtDecoded)
 
     //Dieu huong dlieu sang tang service
-    const createBoard = await boardService.createNew(req.body)
+    const createdBoard = await boardService.createNew(req.body)
 
     //co kqua thi tra ve phia client
-    res.status(StatusCodes.CREATED).json(createBoard)
+    res.status(StatusCodes.CREATED).json(createdBoard)
 
   } catch (error) {
     next(error)
