@@ -10,8 +10,16 @@ import { slugify } from '~/utils/formatters'
 const createNew = async (reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
-   
+    const newBoard = {
+      ...reqBody,
+      slug: slugify(reqBody.title)
+    }
+    //goi toi tang Model de xly ban ghi newBoard vao trong Database
+    const createBoard = await boardModel.createNew(newBoard)
+    //lay ban ghi board sau khi goi
+    const getNewBoard = await boardModel.findOneById(createBoard.insertedId)
     //tra ve kqua, trong service luon co return
+    return getNewBoard
   } catch (error) {
     throw error
   }
