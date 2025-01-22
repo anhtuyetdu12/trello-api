@@ -4,6 +4,8 @@
  * "A bit of fragrance clings to the hand that gives flowers!"
  */
 import { StatusCodes } from 'http-status-codes'
+import { boardService } from '~/services/boardService'
+
 
 const createNew = async(req, res, next) => {
   try {
@@ -15,10 +17,10 @@ const createNew = async(req, res, next) => {
     // console.log('req.jwtDecoded:', req.jwtDecoded)
 
     //Dieu huong dlieu sang tang service
+    const createBoard = await boardService.createNew(req.body)
 
-    // throw new Error('anhtuyetdev test eror')
     //co kqua thi tra ve phia client
-    res.status(StatusCodes.CREATED).json({ message: 'POST from validation: API create new board' })
+    res.status(StatusCodes.CREATED).json(createBoard)
 
   } catch (error) {
     next(error)
