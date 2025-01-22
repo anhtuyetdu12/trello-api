@@ -27,6 +27,23 @@ const createNew = async(req, res, next) => {
   }
 }
 
+const getDetails = async(req, res, next) => {
+  try {
+    // console.log('req.params:', req.params)
+    const boardId = req.params.id
+
+    //Dieu huong dlieu sang tang service
+    const board = await boardService.getDetails(boardId)
+
+    //co kqua thi tra ve phia client
+    res.status(StatusCodes.OK).json(board)
+
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const boardController = {
-  createNew
+  createNew,
+  getDetails
 }
