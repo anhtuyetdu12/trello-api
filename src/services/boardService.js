@@ -3,6 +3,8 @@ import { StatusCodes } from 'http-status-codes'
 import { boardModel } from '~/models/boardModel'
 import ApiError from '~/utils/ApiError'
 import { slugify } from '~/utils/formatters'
+import { cloneDeep } from 'lodash'
+
 /**
  * Updated by anhtuyetdu.com's author on August 17 2023
  * YouTube: https://youtube.com/@anhtuyetdu
@@ -33,9 +35,22 @@ const getDetails = async (boardId) => {
     if (!board) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Board not found!')
     }
-    //tra ve kqua, trong service luon co return
-    return board
+    //deep clone board la tao ra cai moi de xu ly, khong anh huong den ban dau
+    const resBoard = cloneDeep(board)
 
+    //dua card ve dung column cua no
+    resBoard.columns.forEach(column => {
+      //cach 1: object id trong mongodb
+      // column.cards = resBoard.cards.filter(card => card.columnId.equals(column._id))
+
+      //cach 2: convert object ve ham string trong js
+      column.cards = resBoard.cards.filter(card => card.columnId.toString() === column._id.toString())
+    })
+
+    //xoa mang card khoi board ban dau
+    delete resBoard.cards
+
+    return resBoard
   } catch (error) {
     throw error
   }
