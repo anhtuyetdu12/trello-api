@@ -27,6 +27,32 @@ const createNew = async(req, res, next) => {
   }
 }
 
+const update = async(req, res, next) => {
+  const correctCodition = Joi.object({
+    // boardId: Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE),
+    title: Joi.string().min(3).max(50).trim().strict(),
+    cardOrderIds: Joi.array().items(
+      Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE)
+    )
+  })
+  try {
+    //doi với trường hợp update , cho phép Unknown để kh cần đẩy 1 số field lên
+    await correctCodition.validateAsync(req.body, {
+      abortEarly: false,
+      allowUnknown: true
+    })
+    //validate xong cho request sang controller
+    next()
+  } catch (error) {
+    const errorMessage = new Error(error).message
+    const customError = new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, errorMessage)
+    next(customError)
+
+  }
+}
+
+
 export const columnValidation = {
-  createNew
+  createNew,
+  update
 }

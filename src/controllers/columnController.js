@@ -21,8 +21,24 @@ const createNew = async(req, res, next) => {
   }
 }
 
+const update = async(req, res, next) => {
+  try {
+    // console.log('req.params:', req.params)
+    const columnId = req.params.id
+
+    //Dieu huong dlieu sang tang service
+    const updatedColumn = await columnService.update(columnId, req.body)
+
+    //co kqua thi tra ve phia client
+    res.status(StatusCodes.OK).json(updatedColumn)
+
+  } catch (error) {
+    next(error)
+  }
+}
 
 
 export const columnController = {
-  createNew
+  createNew,
+  update
 }
