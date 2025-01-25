@@ -43,7 +43,34 @@ const getDetails = async(req, res, next) => {
   }
 }
 
+const update = async(req, res, next) => {
+  try {
+    // console.log('req.params:', req.params)
+    const boardId = req.params.id
+
+    //Dieu huong dlieu sang tang service
+    const updatedBoard = await boardService.update(boardId, req.body)
+
+    //co kqua thi tra ve phia client
+    res.status(StatusCodes.OK).json(updatedBoard)
+
+  } catch (error) {
+    next(error)
+  }
+}
+
+const moveCardToDifferentColumn = async(req, res, next) => {
+  try {
+    const result = await boardService.moveCardToDifferentColumn( req.body)
+    res.status(StatusCodes.OK).json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const boardController = {
   createNew,
-  getDetails
+  getDetails,
+  update,
+  moveCardToDifferentColumn
 }
