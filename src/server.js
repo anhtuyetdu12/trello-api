@@ -31,13 +31,13 @@ const START_SERVER = () => {
   //moi truong production (dang support cho render)
   if (env.BUILD_MODE === 'production') {
     app.listen(process.env.PORT, () => {
-      console.log(`3.Production:  Hello ${env.AUTHOR}, BE server running at port:${ process.env.PORT }/`)
+      console.log(`3.Production:  Hello ${env.AUTHOR}, BE server running at port:${process.env.PORT}/`)
     })
   } else {
     //Moi truong local dev
     app.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
       console.log(`3.Local Dev:  Hello ${env.AUTHOR}, BE server running at host:
-         ${ env.LOCAL_DEV_APP_HOST } and port:${ env.LOCAL_DEV_APP_PORT }/`)
+         ${env.LOCAL_DEV_APP_HOST} and port:${env.LOCAL_DEV_APP_PORT}/`)
     })
   }
 
