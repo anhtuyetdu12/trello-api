@@ -11,7 +11,7 @@ import exitHook from 'async-exit-hook'
 import { CONNECT_DB, CLOSE_DB } from '~/config/mongodb'
 import { env } from '~/config/environment'
 import { APIs_V1 } from '~/routes/v1'
-import {errorHandlingMiddleware} from '~/middlewares/errorHandlingMiddleware'
+import { errorHandlingMiddleware } from '~/middlewares/errorHandlingMiddleware'
 
 const START_SERVER = () => {
   const app = express()
@@ -21,17 +21,27 @@ const START_SERVER = () => {
 
   //enable req.json data
   app.use(express.json())
-  
+
   //use API v1
   app.use('/v1', APIs_V1)
 
   //Middleware xu ly loi tap trung
   app.use(errorHandlingMiddleware)
 
-  app.listen(env.APP_PORT, env.APP_HOST, () => {
-    // eslint-disable-next-line no-console
-    console.log(`3. Hello ${env.AUTHOR}, BE server running at host: ${ env.APP_HOST } and port:${ env.APP_PORT }/`)
-  })
+  //moi truong production (dang support cho render)
+  if (env.BUILD_MODE === 'production') {
+    app.listen(process.env.PORT, () => {
+      console.log(`3.Production:  Hello ${env.AUTHOR}, BE server running at port:${ process.env.PORT }/`)
+    })
+  } else {
+    //Moi truong local dev
+    app.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
+      console.log(`3.Local Dev:  Hello ${env.AUTHOR}, BE server running at host:
+         ${ env.LOCAL_DEV_APP_HOST } and port:${ env.LOCAL_DEV_APP_PORT }/`)
+    })
+  }
+
+
   exitHook(() => {
     console.log('4. Server is shutting down...')
     CLOSE_DB()
