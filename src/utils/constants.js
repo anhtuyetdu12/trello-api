@@ -7,7 +7,7 @@
 //Nhung domain duoc phep truy cap toi tai nguyen cua server
 export const WHITELIST_DOMAINS = [
   // 'http://localhost:5173'
-  'https://trello-web-one-iota.vercel.app/'
+  'https://trello-web-one-iota.vercel.app'
 ]
 
 export const BOARD_TYPES = {
